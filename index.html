@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Taha Aghajani — Front-End Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #12141C;
+    --bg-raised: #1A1D28;
+    --bg-terminal: #0C0E14;
+    --border: #2A2E3D;
+    --text: #E8E6E1;
+    --text-dim: #9CA0AE;
+    --caption: #6B7280;
+    --amber: #F2A65A;
+    --teal: #4FB3A9;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  a{ color:var(--teal); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  ::selection{ background:var(--amber); color:#12141C; }
+
+  :focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+  }
+
+  .wrap{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: sticky;
+    top:0;
+    z-index: 50;
+    background: rgba(18,20,28,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 16px 24px;
+  }
+  .logo{
+    font-family: var(--font-mono);
+    font-weight:700;
+    font-size: 1rem;
+    color: var(--text);
+  }
+  .logo span{ color: var(--amber); }
+  .navlinks{
+    display:flex;
+    gap: 28px;
+    list-style:none;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  .navlinks a{ color: var(--text-dim); }
+  .navlinks a:hover{ color: var(--amber); text-decoration:none; }
+
+  /* ---------- HERO / TERMINAL ---------- */
+  .hero{
+    padding: 72px 0 56px;
+  }
+  .hero-intro{
+    font-family: var(--font-mono);
+    color: var(--caption);
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+  }
+
+  .terminal{
+    background: var(--bg-terminal);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow:hidden;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-bar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding: 12px 16px;
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--border);
+  }
+  .dot{ width:11px; height:11px; border-radius:50%; }
+  .dot.red{ background:#FF5F57; }
+  .dot.yellow{ background:#FEBC2E; }
+  .dot.green{ background:#28C840; }
+  .terminal-title{
+    margin-left: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--caption);
+  }
+  /* ---- CMD-style terminal (Windows look) ---- */
+  .terminal{
+    background: #0c0c0c;
+    border-color: #333;
+  }
+  .terminal-bar{
+    background: #1e1e1e;
+    border-bottom: 1px solid #333;
+  }
+  .terminal-title{ color:#ccc; }
+  .terminal-body{
+    padding: 20px 18px 26px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.95rem;
+    min-height: 220px;
+    background:#0c0c0c;
+    color:#ccc;
+  }
+  .terminal-line{ display:flex; gap:0; margin-bottom: 2px; flex-wrap:wrap; }
+  .prompt{ color: #ccc; white-space:nowrap; }
+  .cmd{ color: #ccc; }
+  .out{ color: #ccc; padding-left: 0; margin-bottom: 0; }
+  .out strong{ color: #fff; font-weight:700; }
+  .cursor{
+    display:inline-block;
+    width: 8px;
+    height: 1.2em;
+    background: #ccc;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+    animation: blink 1s step-start infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  #terminal-input-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top: 14px;
+  }
+  #terminal-input{
+    background:transparent;
+    border:none;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    flex:1;
+    caret-color: var(--amber);
+  }
+  #terminal-input:focus{ outline:none; }
+  .hint{
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--caption);
+    margin-top: 14px;
+  }
+  .hint kbd{
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.72rem;
+    color: var(--amber);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cursor{ animation:none; opacity:1; }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ---------- SECTION SCAFFOLDING ---------- */
+  section{ padding: 64px 0; border-top: 1px solid var(--border); }
+  .section-label{
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+  .section-label::before{ content: "$ "; color: var(--teal); }
+  h2{
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items:start;
+  }
+  .about-text p{ color: var(--text-dim); margin-bottom: 14px; }
+  .about-text strong{ color: var(--text); }
+
+  .stack-list{ list-style:none; }
+  .stack-list li{
+    display:flex;
+    justify-content:space-between;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    color: var(--text-dim);
+  }
+  .stack-list li span:last-child{ color: var(--teal); }
+
+  @media (max-width: 680px){
+    .about-grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- PROJECTS / COMING SOON ---------- */
+  .coming-soon{
+    background: var(--bg-raised);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .coming-soon .badge{
+    display:inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 18px;
+    letter-spacing: 0.05em;
+  }
+  .coming-soon h3{
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .coming-soon p{
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .coming-soon .dots{
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    color: var(--teal);
+    letter-spacing: 4px;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-terminal{
+    background: var(--bg-terminal);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+  .contact-terminal .out a{ color: var(--amber); }
+  .contact-terminal .out a:hover{ text-decoration: underline; }
+
+  footer{
+    padding: 32px 0 48px;
+    text-align:center;
+    color: var(--caption);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">TahaAghajani<span>.ir</span></div>
+    <ul class="navlinks">
+      <li><a href="#about">about</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-intro">Front-End Developer</div>
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+      <div class="terminal-title">~ Taha-Aghajani  profile: ~</div>
+    </div>
+    <div class="terminal-body" id="terminal-body">
+      <!-- typed content injected by JS -->
+    </div>
+  </div>
+  <div class="hint">try typing <kbd>help</kbd> into the terminal, or <kbd>projects</kbd> / <kbd>contact</kbd> to jump around and have FUN :)</div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-label">cmd about.md</div>
+    <h2>whoami</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p><strong>Taha-Aghajani</strong></p>
+        <p>Nothing--Trying to be something</p>
+        <p></p>
+      </div>
+      <ul class="stack-list">
+        <li><span>markup</span><span>HTML5</span></li>
+        <li><span>styling</span><span>CSS3 / Flexbox / Grid</span></li>
+        <li><span>logic</span><span>JavaScript (ES6+)</span></li>
+        <li><span>tooling</span><span>Git</span></li>
+        <li><span>focus</span><span>responsive, accessible UI</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-label">ls projects/</div>
+    <h2>projects *Coming soon*</h2>
+    <div class="coming-soon">
+      <span class="badge">coming soon</span>
+      <h3>projects Coming soon</h3>
+      <div class="dots">• • •</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-label">whoami --contact</div>
+    <h2>get in touch With me :)</h2>
+    <div class="contact-terminal">
+      <div class="terminal-line"><span class="prompt">$</span><span class="cmd">cmd contact.json</span></div>
+      <div class="out">{</div>
+      <div class="out">&nbsp;&nbsp;"email": <a href="mailto:tahaaghajani@protonmail.com">"tahaaghajani@protonmail.com"</a>,</div>
+      <div class="out">&nbsp;&nbsp;"github": <a href="https://github.com/tahaaghajani" target="_blank" rel="noopener">"github.com/tahaaghajani"</a>,</div>
+      <div class="out">}</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Made by Taha Aghajani  
+</footer>
+
+<script>
+(function(){
+  const body = document.getElementById('terminal-body');
+
+  const introLines = [
+    { type: 'out', text: 'Microsoft Windows [Version 10.0.22631.4602]' },
+    { type: 'out', text: '(c) Taha Aghajani. All rights reserved.' },
+    { type: 'out', text: '' },
+    { type: 'cmd', text: 'whoami' },
+    { type: 'out', text: '<strong>Taha Aghajani</strong> — Front-End Developer' },
+    { type: 'out', text: 'Building with HTML, CSS &amp; JavaScript.' },
+    { type: 'out', text: '' },
+  ];
+
+  let history = [];
+  let historyIndex = -1;
+
+  function typeChar(el, text, i, cb){
+    if(i <= text.length){
+      el.innerHTML = text.slice(0, i);
+      requestAnimationFrame(() => setTimeout(() => typeChar(el, text, i+1, cb), 18));
+    } else if(cb){ cb(); }
+  }
+
+  function renderLine(line, cb){
+    const row = document.createElement('div');
+    if(line.type === 'cmd'){
+      row.className = 'terminal-line';
+      const prompt = document.createElement('span');
+      prompt.className = 'prompt';
+      prompt.textContent = '$';
+      const cmd = document.createElement('span');
+      cmd.className = 'cmd';
+      row.appendChild(prompt);
+      row.appendChild(cmd);
+      body.appendChild(row);
+      typeChar(cmd, line.text, 0, cb);
+    } else {
+      row.className = 'out';
+      body.appendChild(row);
+      row.innerHTML = line.text;
+      if(cb) setTimeout(cb, 150);
+    }
+  }
+
+  function playIntro(idx){
+    if(idx >= introLines.length){
+      showPrompt();
+      return;
+    }
+    renderLine(introLines[idx], () => playIntro(idx+1));
+  }
+
+  const commands = {
+    help: () => [
+      { type:'out', text:'available commands:' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>whoami</strong>&nbsp;&nbsp;&nbsp;— about me' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>about</strong>&nbsp;&nbsp;&nbsp;&nbsp;— jump to the about section' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>dir</strong> / <strong>projects</strong>&nbsp;— jump to selected work' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>contact</strong>&nbsp;&nbsp;— jump to contact info' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>ver</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— show version' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>date</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— show current date' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>cls</strong> / <strong>clear</strong>&nbsp;— clear the terminal' },
+    ],
+    whoami: () => [
+      { type:'out', text:'<strong>Taha Aghajani</strong> — Front-End Developer' },
+      { type:'out', text:'Building with HTML, CSS &amp; JavaScript.' },
+    ],
+    about: () => { scrollToId('about'); return [{type:'out', text:'→ scrolling to about'}]; },
+    dir: () => { scrollToId('projects'); return [
+      { type:'out', text:' Directory of C:\\Users\\Guest\\projects' },
+      { type:'out', text:'' },
+      { type:'out', text:'→ scrolling to projects' },
+    ]; },
+    projects: () => { scrollToId('projects'); return [{type:'out', text:'→ scrolling to projects'}]; },
+    contact: () => { scrollToId('contact'); return [{type:'out', text:'→ scrolling to contact'}]; },
+    ver: () => [{ type:'out', text:'Microsoft Windows [???]' }],
+    date: () => [{ type:'out', text: new Date().toString() }],
+    clear: () => { body.innerHTML = ''; return []; },
+    cls: () => { body.innerHTML = ''; return []; },
+  };
+
+  function scrollToId(id){
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function showPrompt(){
+    const row = document.createElement('div');
+    row.id = 'terminal-input-row';
+    row.innerHTML = '<span class="prompt">C:\\Users\\Guest&gt;</span><input id="terminal-input" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal command input" /><span class="cursor"></span>';
+    body.appendChild(row);
+    const input = row.querySelector('#terminal-input');
+    input.focus();
+
+    input.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){
+        const raw = input.value;
+        const val = raw.trim().toLowerCase();
+        row.remove();
+
+        const echo = document.createElement('div');
+        echo.className = 'terminal-line';
+        echo.innerHTML = '<span class="prompt">C:\\Users\\Guest&gt;</span><span class="cmd">' + (raw || '') + '</span>';
+        body.appendChild(echo);
+
+        let results = [
+          { type:'out', text: "'" + val + "' is not recognized as an internal or external command," },
+          { type:'out', text: 'operable program or batch file.' },
+        ];
+        if(commands[val]) results = commands[val]();
+
+        results.forEach(r => {
+          const line = document.createElement('div');
+          line.className = 'out';
+          line.innerHTML = r.text;
+          body.appendChild(line);
+        });
+
+        if(val){
+          history.push(raw);
+          historyIndex = history.length;
+        }
+
+        showPrompt();
+      } else if(e.key === 'ArrowUp'){
+        e.preventDefault();
+        if(historyIndex > 0){
+          historyIndex--;
+          input.value = history[historyIndex];
+        }
+      } else if(e.key === 'ArrowDown'){
+        e.preventDefault();
+        if(historyIndex < history.length - 1){
+          historyIndex++;
+          input.value = history[historyIndex];
+        } else {
+          historyIndex = history.length;
+          input.value = '';
+        }
+      }
+    });
+  }
+
+  playIntro(0);
+})();
+</script>
+
+</body>
+</html>
