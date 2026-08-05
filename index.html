@@ -376,16 +376,19 @@
 
   const introLines = [
     { type: 'out', text: 'Microsoft Windows [Version 10.0.22631.4602]' },
-    { type: 'out', text: '(c) Taha Aghajani. All rights reserved.' },
+    { type: 'out', text: 'Terminal booted successfully--Welcome to My world. All rights reserved.' },
     { type: 'out', text: '' },
     { type: 'cmd', text: 'whoami' },
     { type: 'out', text: '<strong>Taha Aghajani</strong> — Front-End Developer' },
     { type: 'out', text: 'Building with HTML, CSS &amp; JavaScript.' },
+    { type: 'out', text: 'Type **HELP** to know how this terminal Works ' },
     { type: 'out', text: '' },
   ];
-
   let history = [];
   let historyIndex = -1;
+
+  // Feels like the visitor's own PC, using the common default Windows account name
+  const winUser = 'User';
 
   function typeChar(el, text, i, cb){
     if(i <= text.length){
@@ -431,8 +434,8 @@
       { type:'out', text:'&nbsp;&nbsp;<strong>dir</strong> / <strong>projects</strong>&nbsp;— jump to selected work' },
       { type:'out', text:'&nbsp;&nbsp;<strong>contact</strong>&nbsp;&nbsp;— jump to contact info' },
       { type:'out', text:'&nbsp;&nbsp;<strong>ver</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— show version' },
-      { type:'out', text:'&nbsp;&nbsp;<strong>date</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— show current date' },
-      { type:'out', text:'&nbsp;&nbsp;<strong>cls</strong> / <strong>clear</strong>&nbsp;— clear the terminal' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>date</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— show current date :) ' },
+      { type:'out', text:'&nbsp;&nbsp;<strong>cls</strong> / <strong>clear</strong>&nbsp;— clear the terminal ' },
     ],
     whoami: () => [
       { type:'out', text:'<strong>Taha Aghajani</strong> — Front-End Developer' },
@@ -440,7 +443,7 @@
     ],
     about: () => { scrollToId('about'); return [{type:'out', text:'→ scrolling to about'}]; },
     dir: () => { scrollToId('projects'); return [
-      { type:'out', text:' Directory of C:\\Users\\Guest\\projects' },
+      { type:'out', text:' Directory of C:\\Users\\' + winUser + '\\projects' },
       { type:'out', text:'' },
       { type:'out', text:'→ scrolling to projects' },
     ]; },
@@ -460,7 +463,7 @@
   function showPrompt(){
     const row = document.createElement('div');
     row.id = 'terminal-input-row';
-    row.innerHTML = '<span class="prompt">C:\\Users\\Guest&gt;</span><input id="terminal-input" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal command input" /><span class="cursor"></span>';
+    row.innerHTML = '<span class="prompt">C:\\Users\\' + winUser + '&gt;</span><input id="terminal-input" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal command input" /><span class="cursor"></span>';
     body.appendChild(row);
     const input = row.querySelector('#terminal-input');
     input.focus();
@@ -473,7 +476,7 @@
 
         const echo = document.createElement('div');
         echo.className = 'terminal-line';
-        echo.innerHTML = '<span class="prompt">C:\\Users\\Guest&gt;</span><span class="cmd">' + (raw || '') + '</span>';
+        echo.innerHTML = '<span class="prompt">C:\\Users\\' + winUser + '&gt;</span><span class="cmd">' + (raw || '') + '</span>';
         body.appendChild(echo);
 
         let results = [
